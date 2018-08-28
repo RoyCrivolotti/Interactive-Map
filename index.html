@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Mapa Interactivo</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>
+  <meta charset='utf-8'>
+  <script src='js/jquery-3.2.0.js'></script>
+  <script src='js/sweetalert.min.js'></script>
+  <link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet'>
+  <link rel='stylesheet' type='text/css' href='css/styles.css'>
+  <link rel='stylesheet' type='text/css' href='css/sweetalert.css'>
+</head>
+
+<body>
+  <div id='left-panel'>
+
+    <div class='from-to'>
+      <div class='medios'>
+        <span class='input-label'>Search:</span>
+        <input id='address' type='textbox' value='' placeholder='Enter an address ⏎'>
+      </div>
+      <div class='select-circle'>
+        <div class='circle from'>
+          <span class='input-label'>From:</span>
+          <input type='textbox' id='from' placeholder='Enter an address ⏎'>
+        </div>
+        <div class='circle to'>
+          <span class='input-label'>To:</span>
+          <input type='textbox' id='to' placeholder='Enter an address ⏎'>
+        </div>
+      </div>
+    </div>
+
+    <div class='input-choose'>
+
+      <div class='medios'>
+        <span class='input-label'>Place:</span>
+        <select id='typeOfPlace'>
+          <option value=''>Choose the type of place</option>
+        </select>
+      </div>
+      <div class='medios'>
+        <span class='input-label'>How:</span>
+        <select id='howToGo'>
+          <option value='Auto'> Car </option>
+          <option value='Caminando'> Walking </option>
+          <option value='Bus/Subterraneo/Tren'> Public transport </option>
+        </select>
+      </div>
+      <div class='hide-xs'>
+        <div class='addDestinations'>
+          <span class='input-label'>Add:</span>
+          <input type='textbox' id='addDestination' placeholder='Enter an address ⏎'>
+        </div>
+
+        <label id='labelMidPoints'>Add a destination
+          <br>
+          <span>(Use Ctrl+Click to select more than one)</span>
+        </label>
+        <div class='midPointsBlock'>
+          <div class='arrows'>
+            <div class='up'>
+              <input type='button' value='Up' class='btn btn-default'> </div>
+            <div class='down'>
+              <input type='button' value='down' class='btn btn-default'>
+            </div>
+          </div>
+          <select multiple id='midPoints' class='places'>
+          </select>
+        </div>
+        <div class='radius-mts'>
+          <label for='radius'>Radius</label>
+          <input type='range' id='radius' min='100' value='3000' max='5000' step='100' class='slider'>
+          <output for='radius' id='radiusS'>3000 mts</output>
+        </div>
+        <div>
+        </div>
+      </div>
+      <input type='submit' id='calcularMuchos' value='Calculate route' class='btn btn-outline'>
+      <button class='btn btn-outline' onclick='showHideStreetView()'>Show/Hide StreetView</button>
+    </div>
+
+    <div class='directions'>
+      <div id='directions-panel-summary'> </div>
+      <div id='directions-panel'> </div>
+    </div>
+  </div>
+  </div>
+  <div id='map'></div>
+  <div id='streetView'></div>
+  <script src='js/geocoder.js'></script>
+  <script src='js/marker.js'></script>
+  <script src='js/streetView.js'></script>
+  <script src='js/directions.js'></script>
+  <script src='js/places.js'></script>
+  <script src='js/helper.js'></script>
+  <script src='js/apis.js'></script>
+  <script src='https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyDE0-RGLRjWIim7Y431p4OOjJUG1xjYB4Q&libraries=places&callback=initMap'
+    async defer></script>
+</body>
+
+</html>
