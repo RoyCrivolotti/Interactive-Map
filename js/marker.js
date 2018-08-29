@@ -12,7 +12,7 @@ markerModule = (function () {
       map: map
     });
     /* TODO: Create a marker in in position passed in and display it
-    Fon't forget: title, animation.
+    Don't forget: title, animation.
     Assign it to myMarker */
   }
 

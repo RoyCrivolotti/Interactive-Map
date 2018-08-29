@@ -318,9 +318,8 @@ var placeTypes = [{
 }];
 
 placeTypes.forEach(item => {
-  $('typeOfPlace').append($('<option>', {
+  $('#typeOfPlace').append($('<option>', {
     value: item.value,
     text: item.text
   }));
-  console.log('WASAP');
 });

@@ -11,7 +11,7 @@ directionsModule = (function () {
       directionsModule.calcAndDisplayRoutes();
     });
 
-    let destinationsList = document.getElementsByClassName('places');
+    let destinationsList = Array.from(document.getElementsByClassName('places'));
     destinationsList.forEach(item => item.addEventListener('change', () => {
       if (document.getElementById('from').value != '' && document.getElementById('to'.value) != '') directionsModule.calcAndDisplayRoutes();
     }));
