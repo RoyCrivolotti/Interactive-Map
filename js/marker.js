@@ -60,7 +60,7 @@ markerModule = (function () {
   // When the element 'typeOfPlace' changes, it marks all places near myMarker's location
   var typeOfPlace = document.getElementById('typeOfPlace');
   typeOfPlace.addEventListener('change', function () {
-    if (typeOfPlace.value != '') markerModule.mark();
+    if (!typeOfPlace) markerModule.mark();
   });
 
   // When 'radius' changes, it marks all places near myMarker with this newly set radius

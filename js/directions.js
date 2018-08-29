@@ -11,31 +11,33 @@ directionsModule = (function () {
       directionsModule.calcAndDisplayRoutes();
     });
 
-    let destinationsList = Array.from(document.getElementsByClassName('places'));
-    destinationsList.forEach(item => item.addEventListener('change', () => {
-      if (document.getElementById('from').value != '' && document.getElementById('to'.value) != '') directionsModule.calcAndDisplayRoutes();
-    }));
+    let destinationsColl = document.getElementsByClassName('places');
+    for (let i = 0; i < destinationsColl.length; i++) {
+      destinationsColl[i].addEventListener('change', function () {
+        if (document.getElementById('from').value != '' && document.getElementById('to').value != '') direccionesModulo.calcularYMostrarRutas();
+      });
+    }
   }
 
-  // Adds the addess to the list of midDestinations (if they're not already in it)
+  // Adds the addess to the list of midDestinationsColl (if they're not already in it)
   function addressToList(address, coords) {
-    var midDestinations = document.getElementById('midPoints');
+    var midDestinationsColl = document.getElementById('midPoints');
 
     var needToAdd = true;
 
-    midDestinations.forEach((i, item) => {
-      if (midDestinations.options[i].text.replace(/\r?\n|\r/g, '') === address.replace(/\r?\n|\r/g, '')) needToAdd = false;
-    });
+    for (let i = 0; i < midDestinationsColl.length; i++) {
+      if (midDestinationsColl.options[i].text.replace(/\r?\n|\r/g, ' ') === address.replace(/\r?\n|\r/g, ' ')) needToAdd = false;
+    }
 
     if (needToAdd) {
       var opt = document.createElement('option');
       opt.value = coords;
       opt.innerHTML = address;
-      midDestinations.appendChild(opt);
+      midDestinationsColl.appendChild(opt);
     }
   }
 
-  // Adds the addess to the list of midDestinations and displays it on street view
+  // Adds the addess to the list of midDestinationsColl and displays it on street view
   function addAndDisplayAddress(address, location) {
     that = this;
     var locationCoordsText = location.lat() + ',' + location.lng();
@@ -56,7 +58,7 @@ directionsModule = (function () {
   // Initializes the variables shown in the panel
   function init() {
     calculateRouteOnChange();
-    // Adds the address when enter is pressed whilst being on the'add' field
+    // Adds the address when enter is pressed whilst being on the 'add' field
     $('#add').keypress(function (event) {
       if (event.key === 'Enter') {
         var address = document.getElementById('addDestination').value;
@@ -64,14 +66,14 @@ directionsModule = (function () {
       }
     });
 
-    // Calculates the routes when enter is pressed in'from' and there is a non empty value in'to'
+    // Calculates the routes when enter is pressed in 'from' and there is a non empty value in 'to'
     $('#from').keypress(function (event) {
       if (event.key === 'Enter' && document.getElementById('to').value != '') {
         directionsModule.calcAndDisplayRoutes();
       }
     });
 
-    // Calculates the routes when enter is pressed on'to' and there is a non empry value on'from'
+    // Calculates the routes when enter is pressed on 'to' and there is a non empry value on 'from'
     $('#to').keypress(function (event) {
       if (event.key === 'Enter' && document.getElementById('from').value != '') {
         directionsModule.calcAndDisplayRoutes();

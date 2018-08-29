@@ -20,7 +20,7 @@ placesModule = (function () {
       location: position,
       radius: radius,
       type: typeOfPlace
-    }, markModule.markPlaces);
+    }, markerModule.markPlaces);
   }
 
   return {
