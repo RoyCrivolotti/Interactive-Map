@@ -20,6 +20,11 @@ function initMap() {
       infoWindow.setPosition(centerPos);
       infoWindow.setContent('Location found.');
       infoWindow.open(map);
+
+      setTimeout(function () {
+        infoWindow.close();
+      }, 1000);
+
       map.setCenter(centerPos);
     }, function () {
       handleLocationError(true, infoWindow, map.getCenter());

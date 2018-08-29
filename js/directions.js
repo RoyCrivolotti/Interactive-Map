@@ -22,7 +22,6 @@ directionsModule = (function () {
   // Adds the addess to the list of midDestinationsColl (if they're not already in it)
   function addressToList(address, coords) {
     var midDestinationsColl = document.getElementById('midPoints');
-
     var needToAdd = true;
 
     for (let i = 0; i < midDestinationsColl.length; i++) {
@@ -37,15 +36,17 @@ directionsModule = (function () {
     }
   }
 
-  // Adds the addess to the list of midDestinationsColl and displays it on street view
+  // Adds the addess to the list of midDestinationsColl and displays it on street view (gets calledevery time an address is effectively entered on the '#address' field)
   function addAndDisplayAddress(address, location) {
+    console.log('Address entered: ' + location.toString());
     that = this;
     var locationCoordsText = location.lat() + ',' + location.lng();
     addressToList(address, locationCoordsText);
     map.setCenter(location);
-    // console.log(map.center.toString());
+    locationFoundWindow(location);
+
     streetViewModule.setStreetView(location);
-    markerModule.showMyMarker(location);
+    markerModule.showMyMarker(address, location);
   }
 
   function addAddress(address, location) {
@@ -53,6 +54,7 @@ directionsModule = (function () {
     var locationCoordsText = location.lat() + ',' + location.lng();
     addressToList(address, locationCoordsText);
     map.setCenter(location);
+    directionsModule.locationFoundWindow(location);
   }
 
   // Initializes the variables shown in the panel
@@ -92,6 +94,15 @@ directionsModule = (function () {
   // Calculates the routes between from and to and the mid-stops/destinations (depending on if the user set the way of transport as walking, driving or otherwise)
   function calcAndDisplayRoutes() {
     //TODO: 
+  }
+
+  function locationFoundWindow(location) {
+    infoWindow.setPosition(location);
+    infoWindow.setContent('Location found.');
+    infoWindow.open(map);
+    setTimeout(function () {
+      infoWindow.close();
+    }, 1000);
   }
 
   return {

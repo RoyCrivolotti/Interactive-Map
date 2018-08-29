@@ -6,11 +6,13 @@ markerModule = (function () {
   var infoWindow;
 
   // Create a marker and display it on the map
-  function showMyMarker(location) {
-    var marker = new google.maps.Marker({
+  function showMyMarker(address, location) {
+    myMarker = new google.maps.Marker({
       position: location,
-      map: map
+      map: map,
+      title: address
     });
+    centerPos = markerModule.getMarkerPos();
     /* TODO: Create a marker in in position passed in and display it
     Don't forget: title, animation.
     Assign it to myMarker */
@@ -18,7 +20,7 @@ markerModule = (function () {
 
   // Adds the address of the marker
   function addMarkerAddress(marker) {
-    // console.log(marker.getPosition().lat() + ',' + marker.getPosition().lng());
+    console.log('Marker loc: ' + marker.getPosition().lat() + ',' + marker.getPosition().lng());
     var markerLatLng = new google.maps.LatLng({
       lat: marker.getPosition().lat(),
       lng: marker.getPosition().lng()
@@ -149,7 +151,7 @@ markerModule = (function () {
     return myMarker != undefined;
   }
 
-  function myMarkerPos() {
+  function getMarkerPos() {
     return myMarker.getPosition();
   }
 
@@ -190,11 +192,16 @@ markerModule = (function () {
 
   // Marks the places near my position
   function mark() {
+    var myPosition;
     removeMarkers(markers);
+    console.log('Place: ' + document.getElementById('typeOfPlace').value)
 
-    if (markerModule.myMarkerExists()) var myPosition = markerModule.myMarkerPos();
-    else myPosition = centerPos;
+    if (markerModule.myMarkerExists()) {
+      myPosition = markerModule.getMarkerPos();
+      centerPos = myPosition;
+    } else myPosition = centerPos;
 
+    console.log('Nearby() called with: ' + myPosition.toString());
     if (typeOfPlace.value != '') placesModule.searchPlacesNearby(myPosition);
     map.panTo(myPosition);
   }
@@ -202,7 +209,7 @@ markerModule = (function () {
   return {
     init,
     myMarkerExists,
-    myMarkerPos,
+    getMarkerPos,
     showMyMarker,
     addRouteMarker,
     removeMarkers,

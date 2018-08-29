@@ -7,7 +7,6 @@ geocodingModule = (function () {
     }, function (results, status) {
       if (status === 'OK') {
         functionToCall(address, results[0].geometry.location);
-        // console.log(results[0].geometry.location.toString());
       } else alert('Geocode was not successful for the following reasons: ' + status);
     });
   }

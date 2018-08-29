@@ -16,6 +16,7 @@ placesModule = (function () {
   function searchPlacesNearby(position) {
     let typeOfPlace = document.getElementById('typeOfPlace');
     let radius = document.getElementById('radius');
+    // console.log(placesService);
     placesService.nearbySearch({
       location: position,
       radius: radius,
