@@ -23,7 +23,7 @@ $(document).ready(function () {
 
 // Shows the value indicated by the radiusS selector
 function showValue(value) {
-  document.querySelector('#radius').value = value + ' mts';
+  document.querySelector('#radiusS').value = value + ' mts';
 }
 
 // Types of places, taken from Google Maps

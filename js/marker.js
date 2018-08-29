@@ -60,7 +60,7 @@ markerModule = (function () {
   // When the element 'typeOfPlace' changes, it marks all places near myMarker's location
   var typeOfPlace = document.getElementById('typeOfPlace');
   typeOfPlace.addEventListener('change', function () {
-    if (!typeOfPlace) markerModule.mark();
+    if (typeOfPlace.value != '') markerModule.mark();
   });
 
   // When 'radius' changes, it marks all places near myMarker with this newly set radius
@@ -155,9 +155,9 @@ markerModule = (function () {
 
   // Adds the marker with its route and assigns it the corresponding letters; when clicked, it checks its position on StreetView
   function addRouteMarker(address, letters, isInitial) {
-    removeMarkers(routeMarkers)
+    removeMarkers(routeMarkers);
 
-    var zIndex = 1
+    var zIndex = 1;
     if (isInitial) zIndex = 2;
 
     function addMarkerWithStreetView(address, location) {
@@ -174,12 +174,13 @@ markerModule = (function () {
       routeMarkers.push(marker);
     }
 
-    geocodingModule.useAddress(address, addMarkerWithStreetView)
-    map.fitBounds(mapBoundaries)
+    geocodingModule.useAddress(address, addMarkerWithStreetView);
+    map.fitBounds(mapBoundaries);
   }
 
   // Marks the places in the array results and extends the map boundaries considering the new places
   function markPlaces(results, status) {
+    console.log(status);
     if (status === google.maps.places.PlacesServiceStatus.OK) results.array.forEach(element => {
       createMarker(element);
       extendBoundaries(element);
@@ -189,12 +190,12 @@ markerModule = (function () {
 
   // Marks the places near my position
   function mark() {
-    removeMarkers(markers)
+    removeMarkers(markers);
 
     if (markerModule.myMarkerExists()) var myPosition = markerModule.myMarkerPos();
     else myPosition = centerPos;
 
-    placesModule.searchPlacesNearby(myPosition);
+    if (typeOfPlace.value != '') placesModule.searchPlacesNearby(myPosition);
     map.panTo(myPosition);
   }
 
