@@ -24,7 +24,7 @@ directionsModule = (function () {
     var needToAdd = true;
 
     midDestinations.forEach((i, item) => {
-      if (midDestinations.options[i].text.replace(/\r?\n|\r/g, ' ') === address.replace(/\r?\n|\r/g, ' ')) needToAdd = false;
+      if (midDestinations.options[i].text.replace(/\r?\n|\r/g, '') === address.replace(/\r?\n|\r/g, '')) needToAdd = false;
     });
 
     if (needToAdd) {
@@ -56,7 +56,7 @@ directionsModule = (function () {
   // Initializes the variables shown in the panel
   function init() {
     calculateRouteOnChange();
-    // Adds the address when enter is pressed whilst being on the 'add' field
+    // Adds the address when enter is pressed whilst being on the'add' field
     $('#add').keypress(function (event) {
       if (event.key === 'Enter') {
         var address = document.getElementById('addDestination').value;
@@ -64,14 +64,14 @@ directionsModule = (function () {
       }
     });
 
-    // Calculates the routes when enter is pressed in 'from' and there is a non empty value in 'to'
+    // Calculates the routes when enter is pressed in'from' and there is a non empty value in'to'
     $('#from').keypress(function (event) {
       if (event.key === 'Enter' && document.getElementById('to').value != '') {
         directionsModule.calcAndDisplayRoutes();
       }
     });
 
-    // Calculates the routes when enter is pressed on 'to' and there is a non empry value on 'from'
+    // Calculates the routes when enter is pressed on'to' and there is a non empry value on'from'
     $('#to').keypress(function (event) {
       if (event.key === 'Enter' && document.getElementById('from').value != '') {
         directionsModule.calcAndDisplayRoutes();
