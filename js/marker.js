@@ -4,6 +4,7 @@ markerModule = (function () {
   var routeMarkers = [];
   var mapBoundaries;
   var infoWindow;
+  var fromVal, toVal, searchAddressVal;
 
   // Create a marker and display it on the map
   function showMyMarker(address, location) {
@@ -192,18 +193,18 @@ markerModule = (function () {
 
   // Marks the places near my position
   function mark() {
-    var myPosition;
+    var position;
     removeMarkers(markers);
     console.log('Place: ' + document.getElementById('typeOfPlace').value)
 
     if (markerModule.myMarkerExists()) {
-      myPosition = markerModule.getMarkerPos();
-      centerPos = myPosition;
-    } else myPosition = centerPos;
+      position = markerModule.getMarkerPos();
+      centerPos = position;
+    } else position = centerPos;
 
-    console.log('Nearby() called with: ' + myPosition.toString());
-    if (typeOfPlace.value != '') placesModule.searchPlacesNearby(myPosition);
-    map.panTo(myPosition);
+    console.log('Nearby() called with: ' + position.toString());
+    if (typeOfPlace.value != '') placesModule.searchPlacesNearby(position);
+    map.panTo(position);
   }
 
   return {

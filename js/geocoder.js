@@ -1,11 +1,13 @@
 geocodingModule = (function () {
-  var geocoder // given an address, returns coords
+  var geocoder; // given an address, returns coords
+  var lastAddressGeolocated;
 
-  function useAddress(address, functionToCall) {
-    var locObj = geocoder.geocode({
+  function useAddress(address, functionToCall, field) {
+    geocoder.geocode({
       'address': address
     }, function (results, status) {
       if (status === 'OK') {
+        lastAddressGeolocated = results[0].geometry.location;
         functionToCall(address, results[0].geometry.location);
       } else alert('Geocode was not successful for the following reasons: ' + status);
     });
@@ -19,7 +21,7 @@ geocodingModule = (function () {
     document.querySelector('#address').addEventListener('keypress', function (event) {
       if (event.key === 'Enter') {
         var address = document.getElementById('address').value;
-        that.useAddress(address, directionsModule.addAndDisplayAddress);
+        that.useAddress(address, directionsModule.addAndDisplayAddress, 'address');
       }
     });
   }

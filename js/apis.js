@@ -1,4 +1,4 @@
-var map, infoWindow, centerPos;
+var map, infoWindow, centerPos, usersLocation;
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -13,7 +13,8 @@ function initMap() {
   // Try HTML5 geolocation
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (centerPosition) {
-      centerPos = {
+      centerPos,
+      usersLocation = {
         lat: centerPosition.coords.latitude,
         lng: centerPosition.coords.longitude
       };

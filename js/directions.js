@@ -14,7 +14,7 @@ directionsModule = (function () {
     let destinationsColl = document.getElementsByClassName('places');
     for (let i = 0; i < destinationsColl.length; i++) {
       destinationsColl[i].addEventListener('change', function () {
-        if (document.getElementById('from').value != '' && document.getElementById('to').value != '') direccionesModulo.calcularYMostrarRutas();
+        if (document.getElementById('from').value != '' && document.getElementById('to').value != '') direccionesModulo.calcAndDisplayRoutes();
       });
     }
   }
@@ -64,7 +64,7 @@ directionsModule = (function () {
     $('#add').keypress(function (event) {
       if (event.key === 'Enter') {
         var address = document.getElementById('addDestination').value;
-        geocodingModule.useAddress(address, directionsModule.addAddress);
+        geocodingModule.useAddress(address, directionsModule.addAddress, 'add');
       }
     });
 
