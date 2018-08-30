@@ -5,19 +5,15 @@ placesModule = (function () {
   function autocomplete() {
     var autocompletePlaces = getAutocompletePlaces();
     if (autocompletePlaces.input == undefined || autocompletePlaces.places.length == 0) return;
-    autocompletePlaces.places.addListener('place_changed', function () {
-      var place = autocompletePlaces.places.getPlace();
+    autocompletePlaces.places.addListener('place_changed', event => {
       geocodingModule.useAddress($('#address').val(), directionsModule.addAndDisplayAddress);
-      map.panTo(place.geometry.location);
-      map.setZoom(12);
-      search();
     });
   }
 
   function getAutocompletePlaces() {
     var autocompletePlaces, inputField;
-    $('#left-panel .write-input').change(function () {
-      inputField = this;
+    $('#left-panel .write-input').focus(event => {
+      inputField = event.target;
       let center;
 
       if ($('#address').val() != '' && lastAddressGeolocated != undefined) center = lastAddressGeolocated;
@@ -32,10 +28,10 @@ placesModule = (function () {
         visible: false
       });
 
-      autocompletePlaces = new google.maps.places.Autocomplete(this, {
-          strictBounds: true
-        }),
-        autocompletePlaces.setBounds(circle.getBounds());
+      autocompletePlaces = new google.maps.places.Autocomplete(inputField, {
+        strictBounds: true
+      });
+      autocompletePlaces.setBounds(circle.getBounds());
     });
     return {
       input: inputField,
