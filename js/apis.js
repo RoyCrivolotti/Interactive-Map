@@ -13,7 +13,10 @@ function initMap() {
   // Try HTML5 geolocation
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (centerPosition) {
-      centerPos,
+      centerPos = {
+        lat: centerPosition.coords.latitude,
+        lng: centerPosition.coords.longitude
+      };
       usersLocation = {
         lat: centerPosition.coords.latitude,
         lng: centerPosition.coords.longitude
@@ -26,7 +29,7 @@ function initMap() {
         infoWindow.close();
       }, 1000);
 
-      map.setCenter(centerPos);
+      map.panTo(centerPos);
     }, function () {
       handleLocationError(true, infoWindow, map.getCenter());
     });
