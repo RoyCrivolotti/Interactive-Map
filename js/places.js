@@ -7,15 +7,11 @@ placesModule = (function () {
     if (autocompletePlaces.input == undefined || autocompletePlaces.places.length == 0) return;
     autocompletePlaces.places.addListener('place_changed', function () {
       var place = autocompletePlaces.places.getPlace();
-      if (place.geometry) {
-        map.panTo(place.geometry.location);
-        map.setZoom(12);
-        search();
-      } else autocompletePlaces.input.placeholder = 'Enter an address ⏎';
+      geocodingModule.useAddress($('#address').val(), directionsModule.addAndDisplayAddress);
+      map.panTo(place.geometry.location);
+      map.setZoom(12);
+      search();
     });
-
-    /* Autocomplete the 4 text fields (the addresses the user can input).
-    Create a circle with a 20k mts radius and set the boundaries of the address search (the circle is, obviously, not to be seen on the map) */
   }
 
   function getAutocompletePlaces() {
@@ -24,24 +20,22 @@ placesModule = (function () {
       inputField = this;
       let center;
 
-      if ($('#from').val() != '') center = $('#from').val();
-      else if ($('#address').val() != '' && lastAddressGeolocated != undefined) center = lastAddressGeolocated;
+      if ($('#address').val() != '' && lastAddressGeolocated != undefined) center = lastAddressGeolocated;
       else if (usersLocation != undefined) center = usersLocation;
       else return;
 
+      console.log('Center: ' + center);
+
       circle = new google.maps.Circle({
-        strokeOpacity: 0,
-        fillOpacity: 0,
         center: center,
-        radius: 20000
+        radius: 20000,
+        visible: false
       });
 
-      autocompletePlaces = new google.maps.places.Autocomplete(
-        this, {
-          types: ['geocode'],
-        }
-      );
-      autocomplete.setBounds(circle.getBounds());
+      autocompletePlaces = new google.maps.places.Autocomplete(this, {
+          strictBounds: true
+        }),
+        autocompletePlaces.setBounds(circle.getBounds());
     });
     return {
       input: inputField,
@@ -56,8 +50,8 @@ placesModule = (function () {
 
   // Search places by the specified type in the 'typeOfPlace' field
   function searchPlacesNearby(position) {
-    let typeOfPlace = document.getElementById('typeOfPlace');
-    let radius = document.getElementById('radius');
+    let typeOfPlace = document.getElementById('typeOfPlace').value;
+    let radius = document.getElementById('radius').value;
     // console.log(placesService);
     placesService.nearbySearch({
       location: position,

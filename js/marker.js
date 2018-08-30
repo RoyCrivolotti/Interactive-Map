@@ -4,7 +4,6 @@ markerModule = (function () {
   var routeMarkers = [];
   var mapBoundaries;
   var infoWindow;
-  var fromVal, toVal, searchAddressVal;
 
   // Create a marker and display it on the map
   function showMyMarker(address, location) {
@@ -184,7 +183,7 @@ markerModule = (function () {
   // Marks the places in the array results and extends the map boundaries considering the new places
   function markPlaces(results, status) {
     console.log(status);
-    if (status === google.maps.places.PlacesServiceStatus.OK) results.array.forEach(element => {
+    if (status === google.maps.places.PlacesServiceStatus.OK) Array.from(results).forEach(element => {
       createMarker(element);
       extendBoundaries(element);
     });

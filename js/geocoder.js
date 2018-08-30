@@ -1,14 +1,13 @@
 geocodingModule = (function () {
   var geocoder; // given an address, returns coords
-  var lastAddressGeolocated;
 
-  function useAddress(address, functionToCall, field) {
+  function useAddress(address, functionToCall) {
     geocoder.geocode({
       'address': address
     }, function (results, status) {
       if (status === 'OK') {
-        lastAddressGeolocated = results[0].geometry.location;
         functionToCall(address, results[0].geometry.location);
+        lastAddressGeolocated = results[0].geometry.location;
       } else alert('Geocode was not successful for the following reasons: ' + status);
     });
   }
@@ -18,16 +17,13 @@ geocodingModule = (function () {
     geocoder = new google.maps.Geocoder();
 
     // When you enter an address, it's added and displayed
-    document.querySelector('#address').addEventListener('keypress', function (event) {
-      if (event.key === 'Enter') {
-        var address = document.getElementById('address').value;
-        that.useAddress(address, directionsModule.addAndDisplayAddress, 'address');
-      }
+    document.querySelector('#address').addEventListener('keypress', event => {
+      if (event.key === 'Enter') that.useAddress($('#address').val(), directionsModule.addAndDisplayAddress);
     });
   }
 
   return {
     useAddress,
-    init
+    init,
   };
 })();

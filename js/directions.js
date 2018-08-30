@@ -11,7 +11,7 @@ directionsModule = (function () {
       directionsModule.calcAndDisplayRoutes();
     });
 
-    let destinationsColl = document.getElementsByClassName('places');
+    let destinationsColl = $('.places');
     for (let i = 0; i < destinationsColl.length; i++) {
       destinationsColl[i].addEventListener('change', function () {
         if (document.getElementById('from').value != '' && document.getElementById('to').value != '') direccionesModulo.calcAndDisplayRoutes();
@@ -63,21 +63,19 @@ directionsModule = (function () {
     // Adds the address when enter is pressed whilst being on the 'add' field
     $('#add').keypress(function (event) {
       if (event.key === 'Enter') {
-        var address = document.getElementById('addDestination').value;
-        geocodingModule.useAddress(address, directionsModule.addAddress, 'add');
+        var address = $('#addDestination').val();
+        geocodingModule.useAddress(address, directionsModule.addAddress);
       }
     });
 
     // Calculates the routes when enter is pressed in 'from' and there is a non empty value in 'to'
     $('#from').keypress(function (event) {
-      if (event.key === 'Enter' && document.getElementById('to').value != '') {
-        directionsModule.calcAndDisplayRoutes();
-      }
+      if (event.key === 'Enter' && $('#to').val() != '') directionsModule.calcAndDisplayRoutes();
     });
 
     // Calculates the routes when enter is pressed on 'to' and there is a non empry value on 'from'
     $('#to').keypress(function (event) {
-      if (event.key === 'Enter' && document.getElementById('from').value != '') {
+      if (event.key === 'Enter' && $('#from').val() != '') {
         directionsModule.calcAndDisplayRoutes();
       }
     });

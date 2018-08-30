@@ -1,4 +1,4 @@
-var map, infoWindow, centerPos, usersLocation;
+var map, infoWindow, centerPos, usersLocation, lastAddressGeolocated;
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
