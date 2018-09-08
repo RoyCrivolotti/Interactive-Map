@@ -2,15 +2,15 @@ streetViewModule = (function () {
   var paronama; // StreetView
 
   function init() {
-    let centerPos = map.getCenter();
     panorama = new google.maps.StreetViewPanorama(document.getElementById('streetView'), {
-      position: centerPos,
+      position: map.getCenter(),
       pov: {
         heading: 34,
         pitch: 10
       }
     });
     map.setStreetView(panorama);
+    panorama.addListener('position_changed', () => map.setCenter(panorama.getPosition()));
   }
 
   function setStreetView(centerPos) {

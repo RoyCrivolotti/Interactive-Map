@@ -284,6 +284,8 @@ label {
   right: 0;
   border-top: solid 10px #fff;
   visibility: hidden;
+  min-width: 200px;
+  min-height: 200px;
 }
 
 #left-panel {
@@ -312,23 +314,27 @@ label {
 
 /* TODO: refactor to make the main input panel a flexbox to take less space and
 remove the need to scroll */
-
 @media only screen and (max-width: 800px) {
+
   #left-panel,
   #map,
   #streetView {
     width: 100%;
     float: none;
   }
+
   #left-panel {
     height: auto;
   }
+
   .hide-xs {
     display: none;
   }
+
   #submit {
     margin-bottom: 20px;
   }
+
   .input-choose {
     overflow-y: scroll;
   }

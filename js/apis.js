@@ -12,7 +12,7 @@ function initMap() {
 
   // Try HTML5 geolocation
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function (centerPosition) {
+    navigator.geolocation.getCurrentPosition(centerPosition => {
       centerPos = {
         lat: centerPosition.coords.latitude,
         lng: centerPosition.coords.longitude
@@ -38,11 +38,11 @@ function initMap() {
     handleLocationError(false, infoWindow, map.getCenter());
   }
 
-  geocodingModule.init()
-  markerModule.init()
-  directionsModule.init()
-  placesModule.init()
-  streetViewModule.init()
+  geocodingModule.init();
+  markerModule.init();
+  directionsModule.init();
+  placesModule.init();
+  streetViewModule.init();
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, centerPos) {

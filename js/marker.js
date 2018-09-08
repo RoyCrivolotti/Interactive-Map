@@ -203,7 +203,7 @@ markerModule = (function () {
 
     console.log('Nearby() called with: ' + position.toString());
     if (typeOfPlace.value != '') placesModule.searchPlacesNearby(position);
-    map.panTo(position);
+    // map.panTo(position);
   }
 
   return {
