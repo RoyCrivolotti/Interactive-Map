@@ -43,6 +43,9 @@ function initMap() {
   directionsModule.init();
   placesModule.init();
   streetViewModule.init();
+
+  var removeAllButton = document.getElementById('removeAllButton');
+  map.controls[google.maps.ControlPosition.LEFT].push(removeAllButton);
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, centerPos) {
