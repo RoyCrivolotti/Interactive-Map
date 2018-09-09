@@ -28,6 +28,24 @@ output {
   font-size: 12px;
 }
 
+#removeAllButton {
+  opacity: .6;
+  margin-left: 10px;
+}
+
+#removeAllButton:hover {
+  opacity: 1;
+  cursor: pointer;
+  transform: translateY(-5px);
+  transition: all 0.3s ease-in-out;
+}
+
+#removeAllButton button {
+  color: #000;
+  background: transparent;
+  outline-color: #000;
+}
+
 :focus {
   border: none;
   outline: 0;
