@@ -13,9 +13,6 @@ markerModule = (function () {
       title: address
     });
     centerPos = markerModule.getMarkerPos();
-    /* TODO: Create a marker in in position passed in and display it
-    Don't forget: title, animation.
-    Assign it to myMarker */
   }
 
   // Adds the address of the marker
@@ -54,10 +51,10 @@ markerModule = (function () {
     removeMarkers(routeMarkers);
   }
 
-  // Removes all markers from the map and the array
-  function removeMarkersPlaces() {
-    removeMarkers(markersLugares);
-  }
+  $('#removeAllButton').click(event => {
+    hideMarkers(markers);
+    markers = [];
+  });
 
   // When the element 'typeOfPlace' changes, it marks all places near myMarker's location
   var typeOfPlace = document.getElementById('typeOfPlace');
@@ -183,11 +180,12 @@ markerModule = (function () {
   // Marks the places in the array results and extends the map boundaries considering the new places
   function markPlaces(results, status) {
     console.log(status);
-    if (status === google.maps.places.PlacesServiceStatus.OK) Array.from(results).forEach(element => {
-      createMarker(element);
-      extendBoundaries(element);
-    });
-    else alert('Geocode was not successful for the following reason: ' + status);
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+      Array.from(results).forEach(element => {
+        createMarker(element);
+        extendBoundaries(element);
+      });
+    } else alert('Geocode was not successful for the following reason: ' + status);
   }
 
   // Marks the places near my position
