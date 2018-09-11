@@ -4,7 +4,9 @@ Small project; trying Google's Geocoding API while studying APIs and JS modules 
 
 To make it work and try it out you have to get an API key and use it onin line 97 of the index.html document, where you'll find the following script tag
 
-  <script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?v=3&key=YOUR_API_KEY&libraries=places&callback=initMap' async defer></script>
+```html
+  <script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?v=3&key=**YOUR_API_KEY**&libraries=places&callback=initMap' async defer></script>
+```
 
 In short, get your credentials (https://developers.google.com/maps/documentation/javascript/get-api-key) and replace 'YOUR_API_KEY' with your key.
 
