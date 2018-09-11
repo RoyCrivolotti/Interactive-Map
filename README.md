@@ -13,3 +13,5 @@ To make it work and try it out you have to get an API key and use it onin line 9
 In short, get your credentials (https://developers.google.com/maps/documentation/javascript/get-api-key) and replace 'YOUR_API_KEY' with your key.
 
 In a future update I'll probably change the front-end and make it more responsive. As of right now this will have to do since front-end design and responsiveness weren't the point of this project, but rather working with a nice API and javascript modules, writing some decent js code. Regardless, I'll probably change the front when I have some spare time just for the sake of it, to make it all tidier.
+
+![](front_img/project_img.png)
