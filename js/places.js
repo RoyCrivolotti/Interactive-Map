@@ -1,63 +1,60 @@
+/* eslint-disable max-len */
+/* eslint-disable no-undef */
+/* eslint-disable no-use-before-define */
 placesModule = (function () {
-  var placesService; // To get places nearby and data about them (pics, rating, etc)
+	let placesService; // To get places nearby and data about them (pics, rating, etc)
 
-  // Autocomplete users input and establish the boundaries with a 20k-mts-radius circle
-  function autocomplete() {
-    var autocompletePlaces = getAutocompletePlaces();
-    if (autocompletePlaces.input == undefined || autocompletePlaces.places.length == 0) return;
-    autocompletePlaces.places.addListener('place_changed', event => {
-      geocodingModule.useAddress($('#address').val(), directionsModule.addAndDisplayAddress);
-    });
-  }
+	// Autocomplete users input and establish the boundaries with a 20k-mts-radius circle
+	function autocomplete() {
+		const autocompletePlaces = getAutocompletePlaces();
+		if (autocompletePlaces.input == undefined || autocompletePlaces.places.length === 0) {
+			return;
+		}
 
-  function getAutocompletePlaces() {
-    var autocompletePlaces, inputField;
-    $('#left-panel .write-input').focus(event => {
-      inputField = event.target;
-      let center;
+		autocompletePlaces.places.addListener('place_changed', () => {
+			geocodingModule.useAddress($('#address').val(), directionsModule.addAndDisplayAddress);
+		});
+	}
 
-      if ($('#address').val() != '' && lastAddressGeolocated != undefined) center = lastAddressGeolocated;
-      else if (usersLocation != undefined) center = usersLocation;
-      else return;
+	function getAutocompletePlaces() {
+		let autocompletePlaces;
+		let inputField;
 
-      console.log('Center: ' + center);
+		$('#left-panel .write-input').focus(event => {
+			inputField = event.target;
+			let center;
 
-      circle = new google.maps.Circle({
-        center: center,
-        radius: 20000,
-        visible: false
-      });
+			if ($('#address').val() !== '' && lastAddressGeolocated !== undefined) {
+				center = lastAddressGeolocated;
+			} else if (usersLocation !== undefined) {
+				center = usersLocation;
+			} else return;
 
-      autocompletePlaces = new google.maps.places.Autocomplete(inputField, {
-        strictBounds: true
-      });
-      autocompletePlaces.setBounds(circle.getBounds());
-    });
-    return {
-      input: inputField,
-      places: autocompletePlaces
-    };
-  }
+			circle = new google.maps.Circle({ center, radius: 20000, visible: false });
 
-  function init() {
-    placesService = new google.maps.places.PlacesService(map);
-    autocomplete();
-  }
+			autocompletePlaces = new google.maps.places.Autocomplete(inputField, { strictBounds: true });
+			autocompletePlaces.setBounds(circle.getBounds());
+		});
 
-  // Search places by the specified type in the 'typeOfPlace' field
-  function searchPlacesNearby(position) {
-    let typeOfPlace = document.getElementById('typeOfPlace').value;
-    let radius = document.getElementById('radius').value;
-    // console.log(placesService);
-    placesService.nearbySearch({
-      location: position,
-      radius: radius,
-      type: typeOfPlace
-    }, markerModule.markPlaces);
-  }
+		return { input: inputField, places: autocompletePlaces };
+	}
 
-  return {
-    init,
-    searchPlacesNearby
-  };
-})();
+	function init() {
+		placesService = new google.maps.places.PlacesService(map);
+		autocomplete();
+	}
+
+	// Search places by the specified type in the 'typeOfPlace' field
+	function searchPlacesNearby(position) {
+		const typeOfPlace = document.getElementById('typeOfPlace').value;
+		const radius = document.getElementById('radius').value;
+
+		placesService.nearbySearch({
+			location: position,
+			radius,
+			type: typeOfPlace,
+		}, markerModule.markPlaces);
+	}
+
+	return { init, searchPlacesNearby };
+}());

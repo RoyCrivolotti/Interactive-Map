@@ -1,325 +1,333 @@
 // Shows and hides the StreetView panorama whenever the button '#streetView' is clicked
 function showHideStreetView() {
-  var x = document.getElementById('streetView');
-  if (getComputedStyle(x, null).visibility === 'hidden') x.style.visibility = 'visible';
-  else x.style.visibility = 'hidden';
+	const x = document.getElementById('streetView');
+
+	if (getComputedStyle(x, null).visibility === 'hidden') {
+		x.style.visibility = 'visible';
+	} else x.style.visibility = 'hidden';
 }
 
 // Moves the option upwards to organize the midpoints/destinations
-$(document).ready(function () {
-  $('.up').click(function () {
-    var $op = $('#midPoints option:selected');
-    if ($op.length) $op.first().prev().before($op);
-  });
+$(document).ready(() => {
+	$('.up').click(() => {
+		const $op = $('#midPoints option:selected');
+
+		if ($op.length) {
+			$op.first().prev().before($op);
+		}
+	});
 });
 
 // Moves the option downwards to organize the midpoints/destinations
-$(document).ready(function () {
-  $('.down').click(function () {
-    var $op = $('#midPoints option:selected');
-    if ($op.length) $op.last().next().after($op);
-  });
+$(document).ready(() => {
+	$('.down').click(() => {
+		const $op = $('#midPoints option:selected');
+
+		if ($op.length) {
+			$op.last().next().after($op);
+		}
+	});
 });
 
 // Shows the value indicated by the radiusS selector
 function showValue(value) {
-  document.querySelector('#radiusS').value = value + ' mts';
+	document.querySelector('#radiusS').value = `${value} mts`;
 }
 
 // Types of places, taken from Google Maps
-var placeTypes = [{
-  value: 'accounting',
-  text: 'Contabilidad'
+const placeTypes = [{
+	value: 'accounting',
+	text: 'Contabilidad',
 }, {
-  value: 'airport',
-  text: 'Aeropuerto'
+	value: 'airport',
+	text: 'Aeropuerto',
 }, {
-  value: 'amusement_park',
-  text: 'Parque de atracciones'
+	value: 'amusement_park',
+	text: 'Parque de atracciones',
 }, {
-  value: 'aquarium',
-  text: 'Acuario'
+	value: 'aquarium',
+	text: 'Acuario',
 }, {
-  value: 'art_gallery',
-  text: 'Galería de arte'
+	value: 'art_gallery',
+	text: 'Galería de arte',
 }, {
-  value: 'atm',
-  text: 'Cajero automático'
+	value: 'atm',
+	text: 'Cajero automático',
 }, {
-  value: 'bakery',
-  text: 'Panadería'
+	value: 'bakery',
+	text: 'Panadería',
 }, {
-  value: 'bank',
-  text: 'Banco'
+	value: 'bank',
+	text: 'Banco',
 }, {
-  value: 'bar',
-  text: 'Bar'
+	value: 'bar',
+	text: 'Bar',
 }, {
-  value: 'beauty_salon',
-  text: 'Salón de belleza'
+	value: 'beauty_salon',
+	text: 'Salón de belleza',
 }, {
-  value: 'bicycle_store',
-  text: 'Tienda de bicicletas'
+	value: 'bicycle_store',
+	text: 'Tienda de bicicletas',
 }, {
-  value: 'book_store',
-  text: 'Librería'
+	value: 'book_store',
+	text: 'Librería',
 }, {
-  value: 'bowling_alley',
-  text: 'Bolera'
+	value: 'bowling_alley',
+	text: 'Bolera',
 }, {
-  value: 'bus_station',
-  text: 'Estación de autobuses'
+	value: 'bus_station',
+	text: 'Estación de autobuses',
 }, {
-  value: 'cafe',
-  text: 'Cafetería'
+	value: 'cafe',
+	text: 'Cafetería',
 }, {
-  value: 'campground',
-  text: 'Terreno de camping'
+	value: 'campground',
+	text: 'Terreno de camping',
 }, {
-  value: 'car_dealer',
-  text: 'Vendedor de autos'
+	value: 'car_dealer',
+	text: 'Vendedor de autos',
 }, {
-  value: 'car_rental',
-  text: 'Alquiler de coches'
+	value: 'car_rental',
+	text: 'Alquiler de coches',
 }, {
-  value: 'car_repair',
-  text: 'Reparación de autos'
+	value: 'car_repair',
+	text: 'Reparación de autos',
 }, {
-  value: 'car_wash',
-  text: 'Lavado de coches'
+	value: 'car_wash',
+	text: 'Lavado de coches',
 }, {
-  value: 'casino',
-  text: 'Casino'
+	value: 'casino',
+	text: 'Casino',
 }, {
-  value: 'cemetery',
-  text: 'Cementerio'
+	value: 'cemetery',
+	text: 'Cementerio',
 }, {
-  value: 'church',
-  text: 'Iglesia'
+	value: 'church',
+	text: 'Iglesia',
 }, {
-  value: 'city_hall',
-  text: 'Palacio Municipal'
+	value: 'city_hall',
+	text: 'Palacio Municipal',
 }, {
-  value: 'clothing_store',
-  text: 'Tienda de ropa'
+	value: 'clothing_store',
+	text: 'Tienda de ropa',
 }, {
-  value: 'convenience_store',
-  text: 'Tienda de conveniencia'
+	value: 'convenience_store',
+	text: 'Tienda de conveniencia',
 }, {
-  value: 'courthouse',
-  text: 'Palacio de justicia'
+	value: 'courthouse',
+	text: 'Palacio de justicia',
 }, {
-  value: 'dentist',
-  text: 'Dentista'
+	value: 'dentist',
+	text: 'Dentista',
 }, {
-  value: 'department_store',
-  text: 'Grandes almacenes'
+	value: 'department_store',
+	text: 'Grandes almacenes',
 }, {
-  value: 'doctor',
-  text: 'Doctor'
+	value: 'doctor',
+	text: 'Doctor',
 }, {
-  value: 'electrician',
-  text: 'Electricista'
+	value: 'electrician',
+	text: 'Electricista',
 }, {
-  value: 'electronics_store',
-  text: 'Tienda de electrónicos'
+	value: 'electronics_store',
+	text: 'Tienda de electrónicos',
 }, {
-  value: 'embassy',
-  text: 'Embajada'
+	value: 'embassy',
+	text: 'Embajada',
 }, {
-  value: 'establishment',
-  text: 'Establecimiento'
+	value: 'establishment',
+	text: 'Establecimiento',
 }, {
-  value: 'finance',
-  text: 'Financiar'
+	value: 'finance',
+	text: 'Financiar',
 }, {
-  value: 'fire_station',
-  text: 'Estación de bomberos'
+	value: 'fire_station',
+	text: 'Estación de bomberos',
 }, {
-  value: 'florist',
-  text: 'Florista'
+	value: 'florist',
+	text: 'Florista',
 }, {
-  value: 'food',
-  text: 'Comida'
+	value: 'food',
+	text: 'Comida',
 }, {
-  value: 'funeral_home',
-  text: 'Casa funeraria'
+	value: 'funeral_home',
+	text: 'Casa funeraria',
 }, {
-  value: 'furniture_store',
-  text: 'Tienda de muebles'
+	value: 'furniture_store',
+	text: 'Tienda de muebles',
 }, {
-  value: 'gas_station',
-  text: 'Gasolinera'
+	value: 'gas_station',
+	text: 'Gasolinera',
 }, {
-  value: 'general_contractor',
-  text: 'Contratista general'
+	value: 'general_contractor',
+	text: 'Contratista general',
 }, {
-  value: 'grocery_or_supermarket',
-  text: 'Supermercado o verdulería'
+	value: 'grocery_or_supermarket',
+	text: 'Supermercado o verdulería',
 }, {
-  value: 'gym',
-  text: 'Gimnasio'
+	value: 'gym',
+	text: 'Gimnasio',
 }, {
-  value: 'hair_care',
-  text: 'Cuidado del cabello'
+	value: 'hair_care',
+	text: 'Cuidado del cabello',
 }, {
-  value: 'hardware_store',
-  text: 'Ferretería'
+	value: 'hardware_store',
+	text: 'Ferretería',
 }, {
-  value: 'health',
-  text: 'Salud'
+	value: 'health',
+	text: 'Salud',
 }, {
-  value: 'hindu_temple',
-  text: 'Templo hindú'
+	value: 'hindu_temple',
+	text: 'Templo hindú',
 }, {
-  value: 'home_goods_store',
-  text: 'Almacén'
+	value: 'home_goods_store',
+	text: 'Almacén',
 }, {
-  value: 'hospital',
-  text: 'Hospital'
+	value: 'hospital',
+	text: 'Hospital',
 }, {
-  value: 'insurance_agency',
-  text: 'Agencia de seguros'
+	value: 'insurance_agency',
+	text: 'Agencia de seguros',
 }, {
-  value: 'jewelry_store',
-  text: 'Joyería'
+	value: 'jewelry_store',
+	text: 'Joyería',
 }, {
-  value: 'laundry',
-  text: 'Lavandería'
+	value: 'laundry',
+	text: 'Lavandería',
 }, {
-  value: 'lawyer',
-  text: 'Abogado'
+	value: 'lawyer',
+	text: 'Abogado',
 }, {
-  value: 'library',
-  text: 'Biblioteca'
+	value: 'library',
+	text: 'Biblioteca',
 }, {
-  value: 'liquor_store',
-  text: 'Tienda de licores'
+	value: 'liquor_store',
+	text: 'Tienda de licores',
 }, {
-  value: 'local_government_office',
-  text: 'Local_government_office'
+	value: 'local_government_office',
+	text: 'Local_government_office',
 }, {
-  value: 'locksmith',
-  text: 'Cerrajero'
+	value: 'locksmith',
+	text: 'Cerrajero',
 }, {
-  value: 'lodging',
-  text: 'Alojamiento'
+	value: 'lodging',
+	text: 'Alojamiento',
 }, {
-  value: 'meal_delivery',
-  text: 'Entrega de comida'
+	value: 'meal_delivery',
+	text: 'Entrega de comida',
 }, {
-  value: 'meal_takeaway',
-  text: 'Comida para llevar'
+	value: 'meal_takeaway',
+	text: 'Comida para llevar',
 }, {
-  value: 'mosque',
-  text: 'Mezquita'
+	value: 'mosque',
+	text: 'Mezquita',
 }, {
-  value: 'movie_rental',
-  text: 'Pelicula'
+	value: 'movie_rental',
+	text: 'Pelicula',
 }, {
-  value: 'movie_theater',
-  text: 'Cine'
+	value: 'movie_theater',
+	text: 'Cine',
 }, {
-  value: 'moving_company',
-  text: 'Empresa de mudanzas'
+	value: 'moving_company',
+	text: 'Empresa de mudanzas',
 }, {
-  value: 'museum',
-  text: 'Museo'
+	value: 'museum',
+	text: 'Museo',
 }, {
-  value: 'night_club',
-  text: 'Club nocturno'
+	value: 'night_club',
+	text: 'Club nocturno',
 }, {
-  value: 'painter',
-  text: 'Pintor'
+	value: 'painter',
+	text: 'Pintor',
 }, {
-  value: 'park',
-  text: 'Parque'
+	value: 'park',
+	text: 'Parque',
 }, {
-  value: 'parking',
-  text: 'Estacionamiento'
+	value: 'parking',
+	text: 'Estacionamiento',
 }, {
-  value: 'pet_store',
-  text: 'Tienda de mascotas'
+	value: 'pet_store',
+	text: 'Tienda de mascotas',
 }, {
-  value: 'pharmacy',
-  text: 'Farmacia'
+	value: 'pharmacy',
+	text: 'Farmacia',
 }, {
-  value: 'physiotherapist',
-  text: 'Fisioterapeuta'
+	value: 'physiotherapist',
+	text: 'Fisioterapeuta',
 }, {
-  value: 'place_of_worship',
-  text: 'Lugar de adoración'
+	value: 'place_of_worship',
+	text: 'Lugar de adoración',
 }, {
-  value: 'plumber',
-  text: 'Fontanero'
+	value: 'plumber',
+	text: 'Fontanero',
 }, {
-  value: 'police',
-  text: 'Policía'
+	value: 'police',
+	text: 'Policía',
 }, {
-  value: 'post_office',
-  text: 'Oficina postal'
+	value: 'post_office',
+	text: 'Oficina postal',
 }, {
-  value: 'real_estate_agency',
-  text: 'Real_estate_agency'
+	value: 'real_estate_agency',
+	text: 'Real_estate_agency',
 }, {
-  value: 'restaurant',
-  text: 'Restaurante'
+	value: 'restaurant',
+	text: 'Restaurante',
 }, {
-  value: 'roofing_contractor',
-  text: 'Contratista de techos'
+	value: 'roofing_contractor',
+	text: 'Contratista de techos',
 }, {
-  value: 'rv_park',
-  text: 'Rv_park'
+	value: 'rv_park',
+	text: 'Rv_park',
 }, {
-  value: 'school',
-  text: 'Colegio'
+	value: 'school',
+	text: 'Colegio',
 }, {
-  value: 'shoe_store',
-  text: 'Tienda de zapatos'
+	value: 'shoe_store',
+	text: 'Tienda de zapatos',
 }, {
-  value: 'shopping_mall',
-  text: 'Centro comercial'
+	value: 'shopping_mall',
+	text: 'Centro comercial',
 }, {
-  value: 'spa',
-  text: 'Spa'
+	value: 'spa',
+	text: 'Spa',
 }, {
-  value: 'stadium',
-  text: 'Estadio'
+	value: 'stadium',
+	text: 'Estadio',
 }, {
-  value: 'storage',
-  text: 'Almacenamiento'
+	value: 'storage',
+	text: 'Almacenamiento',
 }, {
-  value: 'store',
-  text: 'Almacenar'
+	value: 'store',
+	text: 'Almacenar',
 }, {
-  value: 'subway_station',
-  text: 'Estación de metro'
+	value: 'subway_station',
+	text: 'Estación de metro',
 }, {
-  value: 'synagogue',
-  text: 'Sinagoga'
+	value: 'synagogue',
+	text: 'Sinagoga',
 }, {
-  value: 'taxi_stand',
-  text: 'Parada de taxi'
+	value: 'taxi_stand',
+	text: 'Parada de taxi',
 }, {
-  value: 'train_station',
-  text: 'Estación de tren'
+	value: 'train_station',
+	text: 'Estación de tren',
 }, {
-  value: 'travel_agency',
-  text: 'Agencia de viajes'
+	value: 'travel_agency',
+	text: 'Agencia de viajes',
 }, {
-  value: 'university',
-  text: 'Universidad'
+	value: 'university',
+	text: 'Universidad',
 }, {
-  value: 'veterinary_care',
-  text: 'cuidado veterinario'
+	value: 'veterinary_care',
+	text: 'cuidado veterinario',
 }, {
-  value: 'zoo',
-  text: 'Zoo'
+	value: 'zoo',
+	text: 'Zoo',
 }];
 
 placeTypes.forEach(item => {
-  $('#typeOfPlace').append($('<option>', {
-    value: item.value,
-    text: item.text
-  }));
+	$('#typeOfPlace').append($('<option>', {
+		value: item.value,
+		text: item.text,
+	}));
 });

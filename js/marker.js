@@ -1,217 +1,236 @@
+/* eslint-disable max-len */
+/* eslint-disable no-undef */
 markerModule = (function () {
-  var myMarker; // The specific marker for the address searched
-  var markers = []; // All the markers from the search
-  var routeMarkers = [];
-  var mapBoundaries;
-  var infoWindow;
+	let myMarker; // The specific marker for the address searched
+	let markers = []; // All the markers from the search
+	const routeMarkers = [];
+	let mapBoundaries;
+	let infoWindow;
 
-  // Create a marker and display it on the map
-  function showMyMarker(address, location) {
-    myMarker = new google.maps.Marker({
-      position: location,
-      map: map,
-      title: address
-    });
-    centerPos = markerModule.getMarkerPos();
-  }
+	// Create a marker and display it on the map
+	function showMyMarker(address, location) {
+		myMarker = new google.maps.Marker({
+			position: location,
+			map,
+			title: address,
+		});
+		centerPos = markerModule.getMarkerPos();
+	}
 
-  // Adds the address of the marker
-  function addMarkerAddress(marker) {
-    console.log('Marker loc: ' + marker.getPosition().lat() + ',' + marker.getPosition().lng());
-    var markerLatLng = new google.maps.LatLng({
-      lat: marker.getPosition().lat(),
-      lng: marker.getPosition().lng()
-    });
-    directionsModule.addAddress(marker.getTitle(), markerLatLng);
-  }
+	// Adds the address of the marker
+	function addMarkerAddress(marker) {
+		const markerLatLng = new google.maps.LatLng({
+			lat: marker.getPosition().lat(),
+			lng: marker.getPosition().lng(),
+		});
 
-  // Adds the markers passed as a parameter to the array and displays them on the map
-  function markerOnMap(markers, map) {
-    markers.forEach(element => element.setMap(map));
-  }
+		directionsModule.addAddress(marker.getTitle(), markerLatLng);
+	}
 
-  // Displays all the markers in the array
-  function showMarkers(markers) {
-    markerOnMap(markers, map);
-  }
+	// Adds the markers passed as a parameter to the array and displays them on the map
+	function markerOnMap(markers, map) {
+		markers.forEach(element => element.setMap(map));
+	}
 
-  // Hides the markers from the map, doesn't remove them
-  function hideMarkers(markers) {
-    markerOnMap(markers, null);
-  }
+	// Displays all the markers in the array
+	function showMarkers(markers) {
+		markerOnMap(markers, map);
+	}
 
-  // Removes the markers being passed as a parameter (from the map and the array)
-  function removeMarkers(someMarkers) {
-    hideMarkers(someMarkers);
-    markers = markers.filter(element => someMarkers.indexOf(element) === -1);
-  }
+	// Hides the markers from the map, doesn't remove them
+	function hideMarkers(markers) {
+		markerOnMap(markers, null);
+	}
 
-  // Removes route markers (from the map and the array)
-  function removeRouteMarkers() {
-    removeMarkers(routeMarkers);
-  }
+	// Removes the markers being passed as a parameter (from the map and the array)
+	function removeMarkers(someMarkers) {
+		hideMarkers(someMarkers);
+		markers = markers.filter(element => someMarkers.indexOf(element) === -1);
+	}
 
-  $('#removeAllButton').click(event => {
-    hideMarkers(markers);
-    markers = [];
-  });
+	// Removes route markers (from the map and the array)
+	function removeRouteMarkers() {
+		removeMarkers(routeMarkers);
+	}
 
-  // When the element 'typeOfPlace' changes, it marks all places near myMarker's location
-  var typeOfPlace = document.getElementById('typeOfPlace');
-  typeOfPlace.addEventListener('change', function () {
-    if (typeOfPlace.value != '') markerModule.mark();
-  });
+	$('#removeAllButton').click(() => {
+		hideMarkers(markers);
+		markers = [];
+	});
 
-  // When 'radius' changes, it marks all places near myMarker with this newly set radius
-  var range = document.getElementById('radius');
+	// When the element 'typeOfPlace' changes, it marks all places near myMarker's location
+	const typeOfPlace = document.getElementById('typeOfPlace');
+	typeOfPlace.addEventListener('change', () => {
+		if (typeOfPlace.value !== '') markerModule.mark();
+	});
 
-  range.addEventListener('change', function () {
-    markerModule.mark();
-  });
+	// When 'radius' changes, it marks all places near myMarker with this newly set radius
+	const range = document.getElementById('radius');
 
-  range.addEventListener('input', function () {
-    showValue(range.value);
-  });
+	range.addEventListener('change', () => {
+		markerModule.mark();
+	});
 
-  // Creates a marker that, when clicked, displays the info on the place
-  createMarker = function (place) {
-    var icono = {
-      url: place.icon,
-      size: new google.maps.Size(71, 71),
-      origin: new google.maps.Point(0, 0),
-      anchor: new google.maps.Point(17, 34),
-      scaledSize: new google.maps.Size(25, 25)
-    };
+	range.addEventListener('input', () => {
+		showValue(range.value);
+	});
 
-    var marker = new google.maps.Marker({
-      map: map,
-      position: place.geometry.location,
-      title: place.name + '\n' + place.vicinity,
-      icon: icono
-    });
-    markers.push(marker);
+	// Creates a marker that, when clicked, displays the info on the place
+	createMarker = function (place) {
+		const icono = {
+			url: place.icon,
+			size: new google.maps.Size(71, 71),
+			origin: new google.maps.Point(0, 0),
+			anchor: new google.maps.Point(17, 34),
+			scaledSize: new google.maps.Size(25, 25),
+		};
 
-    google.maps.event.addListener(marker, 'dblclick', function () {
-      addMarkerAddress(marker);
-    });
+		const marker = new google.maps.Marker({
+			map,
+			position: place.geometry.location,
+			title: `${place.name}\n${place.vicinity}`,
+			icon: icono,
+		});
 
-    google.maps.event.addListener(marker, 'rightclick', function () {
-      var index;
-      markers.forEach((i, element) => {
-        if (markers[i] == marker) {
-          markers[i].setMap(null);
-          index = i;
-          markers.splice(index, 1);
-        }
-      });
-    });
+		markers.push(marker);
 
-    // When the marker is clicked, it shows the picture, name and rating
-    var placeLoc = place.geometry.location;
-    google.maps.event.addListener(marker, 'click', function () {
-      streetViewModule.setStreetView(placeLoc);
-      var rating = 'No tiene';
-      if (place.rating) rating = place.rating.toString(); // Adds the info about the place to the marker window
-      if (place.photos) var url = place.photos[0].getUrl({
-        'maxWidth': 80,
-        'maxHeight': 80
-      });
-      var name = place.name;
-      var nameOfPlace = place.vecinity;
+		google.maps.event.addListener(marker, 'dblclick', () => {
+			addMarkerAddress(marker);
+		});
 
-      if (url) {
-        if (nameOfPlace) infoWindow.setContent('<h3>' + name + '</h3>' + '<img src=' + url + '>' + '<p> Rating: ' + rating + '</p>' + '<p> Direccion: ' + nameOfPlace + '</p>');
-        else infoWindow.setContent('<h3>' + name + '</h3>' + '<img src=' + url + '>' + '<p> Rating: ' + rating + '</p>');
-      } else infoWindow.setContent('<h3>' + name + '</h3>');
+		google.maps.event.addListener(marker, 'rightclick', () => {
+			let index;
+			markers.forEach((element, i) => {
+				if (element === marker) {
+					markers[i].setMap(null);
+					index = i;
+					markers.splice(index, 1);
+				}
+			});
+		});
 
-      infoWindow.open(map, this);
-    });
-  }
+		// When the marker is clicked, it shows the picture, name and rating
+		const placeLoc = place.geometry.location;
+		google.maps.event.addListener(marker, 'click', function () {
+			let url;
 
-  // Extends the boundaries of the map given the place passed onto the function
-  function extendBoundaries(place) {
-    if (place.geometry.viewport) mapBoundaries.union(place.geometry.viewport);
-    else mapBoundaries.extend(place.geometry.location);
-    map.fitBounds(mapBoundaries);
-  }
+			streetViewModule.setStreetView(placeLoc);
+			let rating = 'No tiene';
+			if (place.rating) rating = place.rating.toString(); // Adds the info about the place to the marker window
 
-  // Shows the marker when the address field is pressed
-  function init() {
-    $('#address').keypress(event => {
-      if (event.key === 'Enter') markerModule.showMyMarker();
-    });
-    infoWindow = new google.maps.InfoWindow();
-    mapBoundaries = new google.maps.LatLngBounds();
-  }
+			if (place.photos) {
+				url = place.photos[0].getUrl({ maxWidth: 80, maxHeight: 80 });
+			}
 
-  function myMarkerExists() {
-    return myMarker != undefined;
-  }
+			const { name } = place;
+			const nameOfPlace = place.vecinity;
 
-  function getMarkerPos() {
-    return myMarker.getPosition();
-  }
+			if (url) {
+				if (nameOfPlace) {
+					infoWindow.setContent(`
+				<h3>${name}</h3>
+				<img src=${url}>
+				<p> Rating: ${rating}</p>
+				<p> Direccion: ${nameOfPlace}</p>`);
+				} else {
+					infoWindow.setContent(`
+				<h3>${name}</h3>
+				<img src=${url}>
+				<p> Rating: ${rating}</p>`);
+				}
+			} else {
+				infoWindow.setContent(`<h3>${name}</h3>`);
+			}
 
-  // Adds the marker with its route and assigns it the corresponding letters; when clicked, it checks its position on StreetView
-  function addRouteMarker(address, letters, isInitial) {
-    removeMarkers(routeMarkers);
+			infoWindow.open(map, this);
+		});
+	};
 
-    var zIndex = 1;
-    if (isInitial) zIndex = 2;
+	// Extends the boundaries of the map given the place passed onto the function
+	function extendBoundaries(place) {
+		if (place.geometry.viewport) {
+			mapBoundaries.union(place.geometry.viewport);
+		} else {
+			mapBoundaries.extend(place.geometry.location);
+		}
+		map.fitBounds(mapBoundaries);
+	}
 
-    function addMarkerWithStreetView(address, location) {
-      var marker = new google.maps.Marker({
-        map: map,
-        position: location,
-        label: letters,
-        animation: google.maps.Animation.DROP,
-        draggable: false,
-        zIndex: zIndex
-      });
-      mapBoundaries.extend(location);
-      google.maps.event.addListener(marker, 'click', () => streetViewModule.setStreetView(marker.position));
-      routeMarkers.push(marker);
-    }
+	// Shows the marker when the address field is pressed
+	function init() {
+		$('#address').keypress(event => {
+			if (event.key === 'Enter') markerModule.showMyMarker();
+		});
 
-    geocodingModule.useAddress(address, addMarkerWithStreetView);
-    map.fitBounds(mapBoundaries);
-  }
+		infoWindow = new google.maps.InfoWindow();
+		mapBoundaries = new google.maps.LatLngBounds();
+	}
 
-  // Marks the places in the array results and extends the map boundaries considering the new places
-  function markPlaces(results, status) {
-    console.log(status);
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-      Array.from(results).forEach(element => {
-        createMarker(element);
-        extendBoundaries(element);
-      });
-    } else alert('Geocode was not successful for the following reason: ' + status);
-  }
+	function myMarkerExists() {
+		return myMarker !== undefined;
+	}
 
-  // Marks the places near my position
-  function mark() {
-    var position;
-    removeMarkers(markers);
-    console.log('Place: ' + document.getElementById('typeOfPlace').value)
+	function getMarkerPos() {
+		return myMarker.getPosition();
+	}
 
-    if (markerModule.myMarkerExists()) {
-      position = markerModule.getMarkerPos();
-      centerPos = position;
-    } else position = centerPos;
+	// Adds the marker with its route and assigns it the corresponding letters; when clicked, it checks its position on StreetView
+	function addRouteMarker(address, letters, isInitial) {
+		removeMarkers(routeMarkers);
 
-    console.log('Nearby() called with: ' + position.toString());
-    if (typeOfPlace.value != '') placesModule.searchPlacesNearby(position);
-    // map.panTo(position);
-  }
+		let zIndex = 1;
+		if (isInitial) zIndex = 2;
 
-  return {
-    init,
-    myMarkerExists,
-    getMarkerPos,
-    showMyMarker,
-    addRouteMarker,
-    removeMarkers,
-    markPlaces,
-    mark
-  };
-})();
+		function addMarkerWithStreetView(address, location) {
+			const marker = new google.maps.Marker({
+				map,
+				position: location,
+				label: letters,
+				animation: google.maps.Animation.DROP,
+				draggable: false,
+				zIndex,
+			});
+
+			mapBoundaries.extend(location);
+			google.maps.event.addListener(marker, 'click', () => streetViewModule.setStreetView(marker.position));
+			routeMarkers.push(marker);
+		}
+
+		geocodingModule.useAddress(address, addMarkerWithStreetView);
+		map.fitBounds(mapBoundaries);
+	}
+
+	// Marks the places in the array results and extends the map boundaries considering the new places
+	function markPlaces(results, status) {
+		if (status === google.maps.places.PlacesServiceStatus.OK) {
+			Array.from(results).forEach(element => {
+				createMarker(element);
+				extendBoundaries(element);
+			});
+		} else alert(`Geocode was not successful for the following reason: ${status}`);
+	}
+
+	// Marks the places near my position
+	function mark() {
+		let position;
+		removeMarkers(markers);
+
+		if (markerModule.myMarkerExists()) {
+			position = markerModule.getMarkerPos();
+			centerPos = position;
+		} else position = centerPos;
+
+		if (typeOfPlace.value !== '') placesModule.searchPlacesNearby(position);
+	}
+
+	return {
+		init,
+		myMarkerExists,
+		getMarkerPos,
+		showMyMarker,
+		addRouteMarker,
+		removeMarkers,
+		markPlaces,
+		mark,
+	};
+}());
